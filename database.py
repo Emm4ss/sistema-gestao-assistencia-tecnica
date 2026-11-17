@@ -1,12 +1,9 @@
-# database.py
-
 import sqlite3
 
+DB_NAME = "assistencia.db"
+
 def conectar():
-    return sqlite3.connect(
-        "data/assistencia.db",
-        check_same_thread=False
-    )
+    return sqlite3.connect(DB_NAME)
 
 def criar_banco():
 
@@ -17,7 +14,7 @@ def criar_banco():
     CREATE TABLE IF NOT EXISTS clientes(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
-        telefone TEXT NOT NULL,
+        telefone TEXT,
         email TEXT
     )
     """)
@@ -29,7 +26,7 @@ def criar_banco():
         tipo TEXT,
         marca TEXT,
         modelo TEXT,
-        problema TEXT,
+        serie TEXT,
         FOREIGN KEY(cliente_id) REFERENCES clientes(id)
     )
     """)
@@ -37,11 +34,11 @@ def criar_banco():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS ordens_servico(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        cliente_id INTEGER,
-        equipamento_id INTEGER,
-        descricao TEXT,
-        status TEXT DEFAULT 'Em Análise',
-        valor REAL
+        cliente TEXT,
+        equipamento TEXT,
+        problema TEXT,
+        status TEXT,
+        data_abertura TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
 
